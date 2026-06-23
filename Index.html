@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ══════════════ META SEO ══════════════ -->
+    <title>Diego | Portafolio de Ilustración, 3D y Diseño Digital</title>
+    <meta name="description" content="Portafolio de Diego, estudiante de diseño digital especializado en ilustración barroca, claroscuro, modelado 3D y fotomontaje. Descubre proyectos, inspiraciones artísticas y un videojuego propio.">
+    <meta name="keywords" content="Diego, portafolio, diseño digital, ilustración, claroscuro, barroco, 3D, fotomontaje, after effects, videojuego, estudiante de diseño">
+    <meta name="author" content="Diego">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://tu-dominio.com/">
+
+    <!-- Open Graph (vista previa al compartir en redes / WhatsApp / Discord) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Diego | Portafolio de Ilustración, 3D y Diseño Digital">
+    <meta property="og:description" content="Ilustración barroca, claroscuro, modelado 3D y un videojuego en desarrollo. Conoce el trabajo de Diego.">
+    <meta property="og:image" content="https://tu-dominio.com/imgs/foto-diego-share.jpg">
+    <meta property="og:url" content="https://tu-dominio.com/">
+    <meta property="og:locale" content="es_ES">
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Diego | Portafolio de Ilustración, 3D y Diseño Digital">
+    <meta name="twitter:description" content="Ilustración barroca, claroscuro, modelado 3D y un videojuego en desarrollo.">
+    <meta name="twitter:image" content="https://tu-dominio.com/imgs/foto-diego-share.jpg">
+    <!-- ════════════════════════════════════ -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink:       #0d0b14;
+            --midnight:  #12101e;
+            --plum:      #1e1630;
+            --gold:      #c9a84c;
+            --gold-soft: #e8c97a;
+            --moon:      #f0e6c8;
+            --text:      #cfc4a8;
+            --muted:     #7a7060;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--ink);
+            color: var(--text);
+            font-family: 'Crimson Pro', Georgia, serif;
+            overflow-x: hidden;
+        }
+
+        .escena {
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+        }
+        .escena img, .escena button, .escena a { position: absolute; display: block; }
+        .fondo  { inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1; }
+        .luz    { inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
+        .suelo  { bottom: 0; left: 0; width: 100%; z-index: 3; }
+
+        .escena button, .escena .btn-link {
+            background: none; border: none; cursor: pointer; padding: 0;
+            z-index: 4; transition: transform 0.3s ease, filter 0.3s ease;
+            transform-origin: center bottom;
+        }
+        .escena button:hover, .escena .btn-link:hover {
+            transform: scale(1.08);
+            filter: drop-shadow(0 0 12px rgba(201, 168, 76, 0.55));
+        }
+        .escena button img, .escena .btn-link img { width: 100%; display: block; }
+
+        .btn-luna      { left: 2%;   bottom: 90%; width: 50%; height: 50%; }
+        .btn-personaje { left: 32%;  bottom: 42%; width: 18%; height: 18%; }
+        .btn-tumba     { left: 2%;   bottom: 20%; width: 10%; height: 38%; }
+        .btn-arbol     { right: 3%;  bottom: 44%; width: 17%; height: 21%; }
+
+        /* ── Nueva Escena para el Juego ── */
+        .escena-juego {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            margin-top: 32px;
+        }
+
+        /* ── CONFIGURACIÓN DEL NUEVO BOTÓN TUMBA (Menos grande y con brillo rojo) ── */
+        .btn-bigTomb {
+            position: relative;
+            display: block;
+            margin: 40px auto 0 auto; /* Lo centra automáticamente en la página */
+            width: 100%;
+            max-width: 320px; /* Evita que se haga gigante y controla su escala perfectamente */
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            outline: none;
+            transition: filter 0.4s ease, transform 0.3s ease;
+        }
+
+        /* Asegura que la imagen de la tumba ocupe el espacio correcto sin deformarse */
+        .btn-bigTomb img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Efecto Hover: Resplandor rojo persiguiendo las líneas del dibujo + sutil aumento de tamaño */
+        .btn-bigTomb:hover {
+            transform: scale(1.04);
+            filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.85)) brightness(1.1);
+        }
+
+        /* Pequeña pulsación visual al hacer click */
+        .btn-bigTomb:active {
+            transform: scale(0.98);
+        }
+
+        .scene-fade {
+            width: 100%; height: 120px;
+            background: linear-gradient(to bottom, transparent, var(--ink));
+            margin-top: -120px; position: relative; z-index: 10; pointer-events: none;
+        }
+
+        .carousel-section {
+            background: linear-gradient(135deg, #140505 10%, #0d0202 40%, #110303 70%, #080202 100%);
+            padding: 72px 0; position: relative; overflow: hidden;
+        }
+        .carousel-section::before {
+            content: ''; position: absolute; inset: 0;
+            background:
+                radial-gradient(ellipse 60% 80% at 20% 50%, rgba(255,80,60,0.12) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 70% at 80% 30%, rgba(180,0,0,0.2) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .carousel-section::after {
+            content: ''; position: absolute; inset: 0;
+            background: repeating-linear-gradient(
+                0deg, transparent, transparent 3px,
+                rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px
+            );
+            pointer-events: none;
+        }
+        .carousel-label {
+            text-align: center; margin-bottom: 40px; position: relative; z-index: 2;
+        }
+        .carousel-label span {
+            font-family: 'Cinzel Decorative', serif; font-size: 0.65rem;
+            letter-spacing: 0.4em; text-transform: uppercase;
+            color: rgba(255, 200, 180, 0.7);
+        }
+        .carousel-track-wrap { position: relative; z-index: 2; overflow: hidden; padding: 0 80px; }
+        .carousel-track {
+            display: flex; gap: 24px;
+            transition: transform 0.55s cubic-bezier(0.77, 0, 0.175, 1);
+            will-change: transform;
+        }
+        .carousel-slide {
+            flex: 0 0 calc(33.333% - 16px); min-width: 0; position: relative;
+            border: 1px solid rgba(255, 160, 120, 0.2); overflow: hidden;
+            aspect-ratio: 4 / 3; background: rgba(0,0,0,0.3);
+        }
+        .carousel-slide img {
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            transition: transform 0.6s ease, filter 0.6s ease;
+            filter: brightness(0.85) saturate(1.1);
+            cursor: pointer;
+        }
+        .carousel-slide:hover img { transform: scale(1.06); filter: brightness(0.7) saturate(1.3); }
+        .carousel-slide-caption {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 20px 18px 16px;
+            background: linear-gradient(to top, rgba(80,0,0,0.9) 15%, transparent 100%);
+            font-family: 'Cinzel Decorative', serif; font-size: 0.7rem;
+            letter-spacing: 0.15em; text-transform: uppercase;
+            color: rgba(255, 210, 190, 0.9);
+            opacity: 0; transform: translateY(8px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+        .carousel-slide:hover .carousel-slide-caption { opacity: 1; transform: translateY(0); }
+
+        .carousel-btn {
+            position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+            background: rgba(139,0,0,0.7); border: 1px solid rgba(255,140,100,0.35);
+            color: rgba(255,210,190,0.9); width: 48px; height: 48px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 1.1rem;
+            transition: background 0.3s, border-color 0.3s; backdrop-filter: blur(4px);
+        }
+        .carousel-btn:hover { background: rgba(180,0,0,0.9); border-color: rgba(255,160,120,0.6); }
+        .carousel-btn.prev { left: 16px; }
+        .carousel-btn.next { right: 16px; }
+
+        .carousel-dots { display: flex; justify-content: center; gap: 10px; margin-top: 36px; position: relative; z-index: 2; }
+        .carousel-dot {
+            width: 6px; height: 6px; border-radius: 50%;
+            background: rgba(255,160,120,0.3); border: 1px solid rgba(255,160,120,0.5);
+            cursor: pointer; transition: background 0.3s, transform 0.3s;
+        }
+        .carousel-dot.active { background: rgba(255,160,120,0.9); transform: scale(1.4); }
+
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 1, 1, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 40px;
+            cursor: zoom-out;
+            backdrop-filter: blur(6px);
+        }
+        .lightbox-overlay.active {
+            display: flex;
+            animation: lightboxFade 0.25s ease;
+        }
+        @keyframes lightboxFade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .lightbox-overlay img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 1px solid rgba(255, 160, 120, 0.3);
+            box-shadow: 0 0 60px rgba(0,0,0,0.6);
+            cursor: default;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            color: rgba(255, 210, 190, 0.9);
+            font-size: 2.2rem;
+            font-family: 'Crimson Pro', Georgia, serif;
+            line-height: 1;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 1001;
+        }
+        .lightbox-close:hover { color: var(--gold-soft); }
+
+        .content { max-width: 860px; margin: 0 auto; padding: 80px 32px 120px; }
+
+        .intro-grid {
+            display: flex;
+            align-items: center;
+            gap: 52px;
+            margin-bottom: 48px;
+            scroll-margin-top: 40px;
+        }
+        .intro-photo {
+            flex: 0 0 220px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid rgba(201, 168, 76, 0.4);
+            box-shadow: 0 0 40px rgba(201, 168, 76, 0.15);
+            flex-shrink: 0;
+        }
+        .intro-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transform: scale(1.15);
+            display: block;
+            image-rendering: -webkit-optimize-contrast;
+        }
+        .intro-text { flex: 1; }
+        .intro-text h1 { margin-bottom: 12px; }
+
+        @media (max-width: 600px) {
+            .intro-grid {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 28px;
+            }
+            .intro-photo {
+                flex: 0 0 160px;
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        .eyebrow {
+            display: inline-block; font-family: 'Cinzel Decorative', serif;
+            font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 28px; position: relative; padding-left: 36px;
+        }
+        .eyebrow::before {
+            content: ''; position: absolute; left: 0; top: 50%;
+            width: 24px; height: 1px; background: var(--gold);
+        }
+        h1 {
+            font-family: 'Cinzel Decorative', serif; font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 700; line-height: 1.1; color: var(--moon); margin-bottom: 24px;
+            text-shadow: 0 0 60px rgba(201, 168, 76, 0.25);
+        }
+        h2 {
+            font-family: 'Cinzel Decorative', serif; font-size: clamp(1.4rem, 3vw, 2.2rem);
+            font-weight: 400; color: var(--gold-soft); margin-bottom: 20px;
+        }
+        .subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem); font-style: italic; font-weight: 300;
+            color: var(--gold-soft); line-height: 1.55; margin-bottom: 48px; max-width: 640px;
+        }
+        .divider { display: flex; align-items: center; gap: 16px; margin-bottom: 48px; }
+        .divider::before, .divider::after {
+            content: ''; flex: 1; height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold) 60%, transparent);
+        }
+        .divider span { color: var(--gold); font-size: 1.1rem; line-height: 1; }
+        .body-text { font-size: clamp(1rem, 1.5vw, 1.15rem); line-height: 1.85; color: var(--text); margin-bottom: 28px; font-weight: 300; }
+        .body-text strong { color: var(--moon); font-weight: 400; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; margin-top: 64px; }
+        .feature { border-top: 1px solid rgba(201, 168, 76, 0.3); padding-top: 24px; }
+        .feature-icon { font-size: 1.5rem; margin-bottom: 12px; display: block; }
+        .feature h3 {
+            font-family: 'Cinzel Decorative', serif; font-size: 0.8rem; font-weight: 400;
+            letter-spacing: 0.12em; color: var(--gold-soft); margin-bottom: 10px; text-transform: uppercase;
+        }
+        .feature p { font-size: 0.95rem; line-height: 1.7; color: var(--muted); font-weight: 300; }
+        .cta-wrap { margin-top: 72px; text-align: center; }
+        .cta {
+            display: inline-block; font-family: 'Cinzel Decorative', serif;
+            font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+            color: var(--ink); background: var(--gold); padding: 16px 40px;
+            text-decoration: none; transition: background 0.3s, box-shadow 0.3s;
+        }
+        .cta:hover { background: var(--gold-soft); box-shadow: 0 0 40px rgba(201, 168, 76, 0.4); }
+
+        footer {
+            border-top: 1px solid rgba(201, 168, 76, 0.15);
+            text-align: center; padding: 32px; font-size: 0.8rem;
+            color: var(--muted); letter-spacing: 0.08em;
+        }
+
+        /* ── ANIMACIÓN DE RAÍCES ── */
+        .raices-section {
+            display: flex;
+            flex-direction: column;
+            margin: 8px auto 56px;
+            max-width: 1100px;
+        }
+        .raices-wrap {
+            position: relative;
+            width: 100%;
+            margin-top: 170px;
+        }
+        .raices-wrap svg {
+            width: 100%;
+            height: auto;
+            display: block;
+            overflow: visible;
+        }
+        .raices-wrap svg path {
+            fill: none;
+            stroke-miterlimit: 10;
+            stroke-width: 4px;
+            stroke-dasharray: 1800;
+            stroke-dashoffset: 1800;
+            filter: drop-shadow(0 0 6px rgba(162, 0, 23, 0.35));
+        }
+        .raices-wrap.in-view svg path {
+            animation: dibujarRaiz 2.6s ease-out forwards;
+        }
+        .raices-wrap.in-view svg path:nth-of-type(1) { animation-delay: 0s; }
+        .raices-wrap.in-view svg path:nth-of-type(2) { animation-delay: 0.5s; }
+        .raices-wrap.in-view svg path:nth-of-type(3) { animation-delay: 1s; }
+        .raices-wrap.in-view svg path:nth-of-type(4) { animation-delay: 1.5s; }
+
+        @keyframes dibujarRaiz {
+            to { stroke-dashoffset: 0; }
+        }
+
+        .raices-imgs {
+            display: flex;
+            align-items: flex-start;
+            margin-top: -2px;
+            padding: 0 2%;
+        }
+        .raices-img-slot {
+            position: relative;
+            flex: 0 0 16%;
+            aspect-ratio: 1 / 1;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.03);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .raices-img-slot::before {
+            content: '';
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            width: 2px;
+            height: 22px;
+            transform: translateX(-50%);
+        }
+        .raices-img-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease, filter 0.5s ease;
+        }
+        .raices-img-slot:hover img {
+            transform: scale(1.08);
+            filter: brightness(0.6);
+        }
+        .raices-img-slot.placeholder {
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+            padding: 8px;
+        }
+        .raices-img-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 10px 8px 8px;
+            background: linear-gradient(to top, rgba(20,0,0,0.92) 20%, transparent 100%);
+            font-family: 'Cinzel Decorative', serif;
+            font-size: 0.55rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: rgba(255, 210, 190, 0.95);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(6px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+        .raices-img-slot:hover .raices-img-caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .raices-img-slot.raiz-1 { border: 1px solid rgba(0,0,77,0.5); box-shadow: 0 0 14px rgba(0,0,77,0.2); }
+        .raices-img-slot.raiz-1::before { background: linear-gradient(to bottom, transparent, #00004d); }
+        .raices-img-slot.raiz-2 { border: 1px solid rgba(80,0,40,0.5); box-shadow: 0 0 14px rgba(80,0,40,0.2); }
+        .raices-img-slot.raiz-2::before { background: linear-gradient(to bottom, transparent, #50002a); }
+        .raices-img-slot.raiz-3 { border: 1px solid rgba(120,0,30,0.5); box-shadow: 0 0 14px rgba(120,0,30,0.2); }
+        .raices-img-slot.raiz-3::before { background: linear-gradient(to bottom, transparent, #78001e); }
+        .raices-img-slot.raiz-4 { border: 1px solid rgba(162,0,23,0.5); box-shadow: 0 0 14px rgba(162,0,23,0.2); }
+        .raices-img-slot.raiz-4::before { background: linear-gradient(to bottom, transparent, #a20017); }
+
+        @media (max-width: 700px) {
+            .raices-imgs { flex-wrap: wrap; gap: 14px; padding: 0; }
+            .raices-img-slot { flex: 0 0 calc(50% - 7px); margin-left: 0 !important; }
+            .raices-img-slot::before { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="escena">
+        <img class="fondo"  src="imgs/fondo.png"  alt="">
+        <img class="luz"    src="imgs/luz.png"    alt="">
+        <img class="suelo"  src="imgs/suelo.svg"  alt="">
+        <button class="btn-luna"><img src="imgs/luna.svg" alt="Luna"></button>
+        <button class="btn-personaje"><img src="imgs/personaje.svg" alt="Personaje"></button>
+        <button class="btn-tumba"><img src="imgs/tumba.svg" alt="Enemigo"></button>
+        <button class="btn-arbol"><img src="imgs/arbol.svg" alt="Árbol"></button>
+    </div>
+
+    <div class="scene-fade"></div>
+
+    <section class="carousel-section">
+        <div class="carousel-label"><span>✦ Galería ✦</span></div>
+
+        <div class="carousel-track-wrap" style="position:relative;">
+            <button class="carousel-btn prev" aria-label="Anterior">&#8592;</button>
+
+            <div class="carousel-track" id="carouselTrack">
+                <div class="carousel-slide">
+                    <img src="carrusel/FINAL1.jpg" alt="Proyecto3D">
+                    <div class="carousel-slide-caption">Personaje 3D (final)</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/FINAL2.jpg" alt="Proyecto3D_2">
+                    <div class="carousel-slide-caption">Personaje 3D II (final) </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/FINAL3.jpg" alt="proyecto3D_3">
+                    <div class="carousel-slide-caption">Personaje 3D III (final)</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/cyberCommando.jpg" alt="IlustraciónIndependiente">
+                    <div class="carousel-slide-caption">CyberMosquetero</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/AnguloDiego_ComposicionTexturas.jpg" alt="PruebaDeEstructuras_3D">
+                    <div class="carousel-slide-caption">Recreación de puerta del Sol en 3d</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/BOCETO 7.jpg" alt="Reptilectric">
+                    <div class="carousel-slide-caption">Reinterpretación Álbum de zoe</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/AnguloDiegoExamenFinal_MuerteDeCaravaggio.jpg" alt="OdaACaravaggio">
+                    <div class="carousel-slide-caption">la muerte de Caravaggio</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/TRABAJO.jpg" alt="proyectoEstetica">
+                    <div class="carousel-slide-caption">ilustración de Cartel de feria del Libro</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/primerisimaIlustracionDigital.jpg" alt="primeraIlustracionDigital">
+                    <div class="carousel-slide-caption">Mi primer dibujo digital (2020)</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/fusileroSueco.jpg" alt="fusileroSueco">
+                    <div class="carousel-slide-caption">Fusilero Sueco (2020)</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/popGum.jpg" alt="MiniMarca">
+                    <div class="carousel-slide-caption">Pop Gum (2020)</div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="carrusel/primeraIlustracion.jpg" alt="primeraIlustracionDigital">
+                    <div class="carousel-slide-caption">Primer Perfil Ilustrado Digitalmente (2020)</div>
+                </div> 
+            </div>
+
+            <button class="carousel-btn next" aria-label="Siguiente">&#8594;</button>
+        </div>
+
+        <div class="carousel-dots" id="carouselDots"></div>
+    </section>
+
+    <div class="lightbox-overlay" id="lightboxOverlay">
+        <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar">&times;</button>
+        <img id="lightboxImg" src="" alt="">
+    </div>
+
+    <section class="content">
+
+        <div class="intro-grid">
+            <div class="intro-photo">
+                <img id="introAnim" src="imgs/logoanimado (2).gif" alt="Diego">
+            </div>
+            <div class="intro-text">
+                <span class="eyebrow">Portafolio</span>
+                <h1>Mi nombre es:</h1>
+                <p class="subtitle">Diego, estudiante de diseño digital.</p>
+            </div>
+        </div>
+
+        <div class="divider"><span>✦</span></div>
+
+        <p class="body-text">
+            Diego, y soy estudiante de diseño digital. Mis mayores fuertes son la ilustración,
+            programación en C++ (aunque he de admitir que estoy algo oxidado), edición de
+            video, fotomontaje y animación en After Effects (al menos con figuras vectorizadas).
+        </p>
+        <p class="body-text">
+            Últimamente me centré en la ilustración, con un estilo dirigido al barroco y aún más
+            centrado en el claroscuro. En edición de video me centré más en hacer uso de fotocomposiciones
+            animadas, también aspiro bastante a hacer videojuegos en un futuro. Si quieres saber un poco más
+            cómo pienso y resuelvo algunos proyectos, puedes presionar mi logo que está al lado.
+        </p>
+
+        <h1>Inspiraciones Artísticas</h1>
+
+        <div class="raices-section">
+            <div class="raices-wrap" id="raicesWrap">
+                <svg id="Capa_1" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 745"><defs><linearGradient id="Degradado_sin_nombre_48" x1="178.56" y1="393.16" x2="547.51" y2="393.16" gradientTransform="translate(332.03 -552.66) rotate(33.88)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00004d"/><stop offset="1" stop-color="#a20017"/></linearGradient><linearGradient id="Degradado_sin_nombre_48-2" x1="-36.46" y1="577.4" x2="310.81" y2="577.4" gradientTransform="matrix(0.77, 0.64, -0.64, 0.77, 404.08, -579.75)" xlink:href="#Degradado_sin_nombre_48"/><linearGradient id="Degradado_sin_nombre_48-3" x1="224.64" y1="106.25" x2="755.1" y2="106.25" gradientTransform="translate(448.49 -606.76) rotate(42.59)" xlink:href="#Degradado_sin_nombre_48"/><linearGradient id="Degradado_sin_nombre_48-4" x1="786.72" y1="-147.78" x2="1093.56" y2="-147.78" gradientTransform="translate(321.61 -249.57) rotate(26.28)" xlink:href="#Degradado_sin_nombre_48"/></defs><title>Mesa de trabajo 1</title><path stroke="url(#Degradado_sin_nombre_48)" d="M602.27-154.38s14,45.53,5.07,58.81-2.61,38-2.61,38L603-22.64l27.16,6.19s13.06,77.43,5,94.87-22.66,60.67-22.66,60.67,27-27.65,21.64-3.54S622.49,194,622.49,194l70-25.29S651.72,331.7,667,314.28s-21.5,44.58-21.5,44.58,4.62,30.8,7.36,41.07-7.33,36-7.33,36L663,377.78l29.76-28.2-7.14-21.65,36-164.91-59-10.73-16.13,13.26-.09-59.08.36-23.85,21.46-33.77-20.06-58L635.82-68,621.77-183.44Z"/><path stroke="url(#Degradado_sin_nombre_48-2)" d="M290.24-104.3s4.64,11.64-10.36,48.56-23.33,39.11-12,45.87,35.91-26.09,20,16.59-42,44.41-18.13,64.19,24.24,16.2,18.43,45.15,13.24,65.52-2.07,84-34.41,11.74-15.89,42.68,33.74,26.66,33,49.46,18.1,64.35,18.1,64.35l24.6,4.8-23-33.36,19.78-23.87s-25.08-40.26-28.16-42.81-3.43-36.61-3.43-36.61l-1.76-33.93,10.33-64.17-11.55-55,16.4-90.32s-6-25.72-9.18-29.68,8.7-96.69,8.7-96.69Z"/><path stroke="url(#Degradado_sin_nombre_48-3)" d="M946.77-249.21c10.74,3.09,50.86-2.13,31.65,29.11s-22.74,48.37-17.84,63.73,5.64,50,3.4,64.26-17,51-11.28,68.42,36,49.44,36,49.44-1.74,59.52-2,102.71,8.81,108.62,26.54,126.27,8.42,82.46,8.42,82.46l34.11,70.75,22.44-55.44s-25.44-32.9-27.09-38.49-8.55-35-1.17-44.54-29.4-59.63-29.4-59.63L1045,134.5S1034.25,81.17,1026.83,73s5.77-81.63,5.77-81.63L978.86-58l15.58-67.18,27.88-77.61-24.11-68.35-16.93-15.56Z"/><path stroke="url(#Degradado_sin_nombre_48-4)" d="M1403.49-147.25c14.87,21.84,1.5,30.85-.65,48.75s11.29,22.31,15,39.73-4.09,76.05-2.72,82.3,8.44,77.78,8.44,77.78l37.13,1.6s11.44,51.37,4.38,70.19-18.89,67.63-22.88,75.7,19.44,41.94,19.44,41.94l-31.43,63.66,9.17,44.68s8.82-24.65,15.5-31.39,33-14.92,33-14.92l6.11-30.44-6.42-32.17L1511,240.4s-8.2-30.82-11.35-33.48,1.47-64,1.47-64-.7-50.54-6.52-52.3-53-48.48-53-48.48-3.81-46.49.63-53.22,8.31-37.16,8.31-37.16l.16-56.8,10.22-13.91-43.94-21.7Z"/></svg>
+            </div>
+
+            <div class="raices-imgs">
+                <div class="raices-img-slot placeholder raiz-2" style="margin-left:4%;">
+                    <img src="inspiraciones/antonov.jpg" alt="VikotrAntonov">
+                    <div class="raices-img-caption">Viktor Antonov</div>
+                </div>
+                <div class="raices-img-slot placeholder raiz-1" style="margin-left:8%;">
+                    <img src="inspiraciones/caravaggio.jpg" alt="Caravaggio">
+                    <div class="raices-img-caption">Caravaggio</div>
+                </div>
+                <div class="raices-img-slot placeholder raiz-3" style="margin-left:8%;">
+                    <img src="inspiraciones/murata.webp" alt="YusukeMurata">
+                    <div class="raices-img-caption">Yusuke Murata</div>
+                </div>
+                <div class="raices-img-slot placeholder raiz-4" style="margin-left:12%;">
+                    <img src="inspiraciones/RembrandtSelfPortrait_Age34-59f0c0930d327a001096f8c4-1806551614.jpg" alt="Rembrandt">
+                    <div class="raices-img-caption">Rembrandt</div>
+                </div>
+            </div>
+        </div>
+
+        <h1 id="seccionJuego">Promocion de mi Juego</h1>
+        <h2>Haz click al siguiente Link</h2>
+
+        <!-- Tu enlace que actúa como botón e integra la imagen limpiamente -->
+        <a href="AQUI_VA_EL_ENLACE_DE_TU_JUEGO" class="btn-bigTomb">
+            <img src="imgs/ttumbaC.svg" alt="Tumba Grande Juego">
+        </a>
+
+    </section>
+
+    <footer>
+        &copy; 2026 &nbsp;·&nbsp; Portafolio & Marca de Diego &nbsp;·&nbsp; Todos los derechos reservados
+        <div><img src="imgs/personaje.png" alt=""></div>
+        <div><img src="" alt=""></div>
+        <div><img src="" alt=""></div>
+    </footer>
+
+    <script>
+        (function () {
+            // ── Redirección de los botones de la escena interactiva ──
+            document.querySelector('.btn-luna').addEventListener('click', () => {
+                document.querySelector('.carousel-section').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.querySelector('.btn-personaje').addEventListener('click', () => {
+                document.querySelector('.intro-grid').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.querySelector('.btn-tumba').addEventListener('click', () => {
+                const destino = document.getElementById('seccionJuego');
+                if (destino) destino.scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            document.querySelector('.btn-arbol').addEventListener('click', () => {
+                document.querySelector('.raices-section').scrollIntoView({ behavior: 'smooth' });
+            });
+
+            const track  = document.getElementById('carouselTrack');
+            const dotsEl = document.getElementById('carouselDots');
+            const slides = track.querySelectorAll('.carousel-slide');
+            const visible = 3;
+            const pages   = Math.ceil(slides.length / visible);
+            let   current = 0;
+
+            for (let i = 0; i < pages; i++) {
+                const d = document.createElement('div');
+                d.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                d.addEventListener('click', () => goTo(i));
+                dotsEl.appendChild(d);
+            }
+
+            function goTo(page) {
+                current = Math.max(0, Math.min(page, pages - 1));
+                const slideW = slides[0].offsetWidth + 24;
+                track.style.transform = `translateX(-${current * visible * slideW}px)`;
+                dotsEl.querySelectorAll('.carousel-dot').forEach((d, i) =>
+                    d.classList.toggle('active', i === current));
+            }
+
+            document.querySelector('.carousel-btn.prev').addEventListener('click', () =>
+                goTo(current > 0 ? current - 1 : pages - 1));
+            document.querySelector('.carousel-btn.next').addEventListener('click', () =>
+                goTo(current < pages - 1 ? current + 1 : 0));
+
+            const overlay   = document.getElementById('lightboxOverlay');
+            const overlayImg = document.getElementById('lightboxImg');
+            const closeBtn  = document.getElementById('lightboxClose');
+
+            slides.forEach((slide) => {
+                const img = slide.querySelector('img');
+                img.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    overlayImg.src = img.src;
+                    overlayImg.alt = img.alt;
+                    overlay.classList.add('active');
+                });
+            });
+
+            function closeLightbox() {
+                overlay.classList.remove('active');
+                overlayImg.src = '';
+            }
+
+            overlay.addEventListener('click', closeLightbox);
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeLightbox();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
+            });
+        })();
+
+        // ── Reinicia la animación del perfil cada vez que entra en pantalla ──
+        (function () {
+            const introImg = document.getElementById('introAnim');
+            if (!introImg) return;
+            const originalSrc = introImg.getAttribute('src');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        introImg.src = '';
+                        requestAnimationFrame(() => {
+                            introImg.src = originalSrc + '?t=' + Date.now();
+                        });
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            observer.observe(introImg.closest('.intro-grid'));
+        })();
+
+        // ── Activa la animación de las raíces al entrar en pantalla ──
+        (function () {
+            const raicesWrap = document.getElementById('raicesWrap');
+            if (!raicesWrap) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        raicesWrap.classList.remove('in-view');
+                        void raicesWrap.offsetWidth;
+                        raicesWrap.classList.add('in-view');
+                    } else {
+                        raicesWrap.classList.remove('in-view');
+                    }
+                });
+            }, { threshold: 0.4 });
+
+            observer.observe(raicesWrap);
+        })();
+    </script>
+
+</body>
+</html>
